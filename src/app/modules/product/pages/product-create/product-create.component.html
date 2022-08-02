@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-success" role="alert" *ngIf="successMessage">
+            {{successMessage}}
+        </div>
+        <div class="alert alert-danger" role="alert" *ngFor="let error of errors">
+            {{error | ucfirst }}
+        </div>
+    </div>
+</div>
+<form *ngIf="form" class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col-12 mb-3">
+        <label for="name" class="form-label" i18n>Name</label>
+        <input formControlName="name" type="text" class="form-control" id="name" i18n-placeholder placeholder="E.g. Rice 300gr 1 package ">
+    </div>
+    <div class="col-12 mb-3">
+        <label for="description" class="form-label" i18n>Description</label>
+        <textarea formControlName="description" class="form-control" id="description" rows="3"></textarea>
+    </div>
+    <div class="col-12 text-end">
+        <button async-btn [async-btn-is-busy]="createButtonLoading" class="btn btn-success" [disabled]="form.invalid" i18n>Create product</button>
+    </div>
+</form>
