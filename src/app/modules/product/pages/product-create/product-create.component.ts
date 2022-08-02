@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateProductDto } from '@modules/product/dto/create-product.dto';
 import { ProductService } from '@modules/product/services/product.service';
 import { EnvService } from '@shared/services/env/env.service';
+import { HelperService } from '@shared/services/helper/helper.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -13,7 +14,7 @@ import { finalize } from 'rxjs';
 })
 export class ProductCreateComponent {
   form: FormGroup;
-  successMessage: string = '';
+  createdProductId: string = '';
   errors: string[] = [];
   createButtonLoading = false;
 
@@ -30,22 +31,23 @@ export class ProductCreateComponent {
   public onSubmit() {
     const dto = new CreateProductDto(this.form.value);
     this.errors = [];
-    this.successMessage = '';
+    this.createdProductId = '';
     this.createButtonLoading = true;
     this.productService.create(dto)
       .pipe(finalize(() => this.createButtonLoading = false))
       .subscribe({
-        next: res => {
-          this.successMessage = 'Oh right!';
+        next: product => {
+          this.createdProductId = product.id;
         },
         error: (res: HttpErrorResponse) => {
-          if (res.error?.message?.length) {
+          const errors = HelperService.toArray<string>(res.error?.message);
+          if (errors?.length) {
             this.errors = res.error.message;
           } else {
             this.errors.push($localize`Failed to create product!`);
           }
         }
-      })
+      });
   }
 
   private initForm() {
