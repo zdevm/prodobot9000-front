@@ -11,8 +11,13 @@ const routes: Routes = [
   },
 
   {
-    path: '', // view product
+    path: ':id', // view product
     loadChildren: () => import('./pages/view-product/view-product.module').then(m => m.ViewProductModule)
+  },
+
+  {
+    path: '', // browse products
+    loadChildren: () => import('./pages/my-products/my-products.module').then(m => m.MyProductsModule)
   }
 
 ]

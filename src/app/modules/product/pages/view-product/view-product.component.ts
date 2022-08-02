@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '@modules/product/services/product.service';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
@@ -18,7 +18,8 @@ export class ViewProductComponent implements OnDestroy {
 
   constructor(private productService: ProductService,
               private loadingScreen: LoadingScreenService,
-              private route: ActivatedRoute) {
+              private readonly route: ActivatedRoute,
+              private readonly router: Router) {
     // watch for params changes
     // if params change, fetch product
     route.params.pipe(takeUntil(this.unsub$))
@@ -47,17 +48,26 @@ export class ViewProductComponent implements OnDestroy {
       title: $localize`Are you sure you want to continue?`,
       text: $localize`'${this.product.name}' will be deleted permanently!`,
       showCancelButton: true,
-      cancelButtonColor: 'light',
       cancelButtonText: 'Go back',
       showConfirmButton: true,
-      confirmButtonColor: '#dc3545',
-      confirmButtonText: 'Delete product'
+      confirmButtonText: 'Delete product',
+      customClass: {
+        confirmButton: 'btn bg-danger',
+        cancelButton: 'btn bg-primary'
+      }
     });
     if (value.dismiss) {
       return;
     }
-    this.deleteProduct(this.product.id).subscribe(deletedProduct => {
-      console.log(deletedProduct);
+    this.deleteProduct(this.product.id).subscribe(async deletedProduct => {
+      await Swal.fire({
+        icon: 'success',
+        title: $localize`'${deletedProduct.name}' has been successfully deleted!`,
+        timer: 5000,
+        showCloseButton: true,
+        showConfirmButton: false
+      });
+      this.router.navigate(['/products']);
     })
   }
 

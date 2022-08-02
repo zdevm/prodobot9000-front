@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductCreateComponent } from './product-create.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgPipesModule } from 'ngx-pipes';
+import { NgStringPipesModule } from 'ngx-pipes';
 import { AsyncButtonModule } from '@shared/directives/async-button/async-button.module';
 
 const routes: Routes = [
@@ -23,7 +23,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    NgPipesModule,
+    NgStringPipesModule,
     AsyncButtonModule
   ],
   exports: [RouterModule]

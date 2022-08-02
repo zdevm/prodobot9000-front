@@ -13,7 +13,7 @@ export class CommonHttpInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const apiUrl = this.envService.getOrThrow('api.url')
     const newRequest = req.clone({
-      url: `${apiUrl}/${req.urlWithParams}`
+      url: `${apiUrl}/${req.url}`
     });
     return next.handle(newRequest);
   }
