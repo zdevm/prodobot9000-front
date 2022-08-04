@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" *ngFor="let item of (breadcrumbService.items$ | async)" [class.active]="!item.url">
+            <a routerLink="{{item.url}}" *ngIf="item.url; else noUrl">{{item.label}}</a>
+            <ng-template #noUrl>
+                <span>{{item.label}}</span>
+            </ng-template>
+        </li>
+    </ol>
+</nav>

@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
+import { BreadcrumbService } from '@modules/breadcrumb/services/breadcrumb.service';
 import { ProductService } from '@modules/product/services/product.service';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
@@ -19,7 +21,9 @@ export class ViewProductComponent implements OnDestroy {
   constructor(private productService: ProductService,
               private loadingScreen: LoadingScreenService,
               private readonly route: ActivatedRoute,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly breadcrumbService: BreadcrumbService) {
+
     // watch for params changes
     // if params change, fetch product
     route.params.pipe(takeUntil(this.unsub$))
@@ -32,6 +36,7 @@ export class ViewProductComponent implements OnDestroy {
                     return;
                   }
                   this.product = await lastValueFrom(this.fetchProduct(productId));
+                  this.prepareBreadcrumb();
                 });
   }
 
@@ -85,6 +90,16 @@ export class ViewProductComponent implements OnDestroy {
 
   private setLoading(show: boolean) {
     this.loadingScreen.show(show);
+  }
+
+  private prepareBreadcrumb() {
+    if (this.product) {
+      this.breadcrumbService.clear();
+      this.breadcrumbService.set(([
+        new BreadcrumbItem({ label: $localize`My Products`, url: '/products' }),
+        new BreadcrumbItem({ label: this.product.name }),
+      ]))
+    };
   }
 
 }

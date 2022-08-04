@@ -10,6 +10,7 @@ import { CommonHttpInterceptor } from '@shared/interceptors/http-interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingScreenModule } from '@shared/loading-screen/loading-screen.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { BreadcrumbModule } from '@modules/breadcrumb/breadcrumb.module';
 
 export const EnvInjectionToken = new InjectionToken<Env>('ENVIRONMENT Injection token', {
   providedIn: 'root',
@@ -26,7 +27,8 @@ export const EnvInjectionToken = new InjectionToken<Env>('ENVIRONMENT Injection 
     HttpClientModule,
     NgbModule,
     LoadingScreenModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    BreadcrumbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CommonHttpInterceptor, multi: true }

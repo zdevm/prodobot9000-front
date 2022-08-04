@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
+import { BreadcrumbService } from '@modules/breadcrumb/services/breadcrumb.service';
 import { CreateProductDto } from '@modules/product/dto/create-product.dto';
 import { ProductService } from '@modules/product/services/product.service';
 import { EnvService } from '@shared/services/env/env.service';
@@ -20,12 +22,14 @@ export class ProductCreateComponent {
 
   constructor(private readonly productService: ProductService,
     private readonly envService: EnvService,
-    private readonly fb: FormBuilder) {
+    private readonly fb: FormBuilder,
+    private readonly breadcrumbService: BreadcrumbService) {
     this.form = this.initForm();
     // if we are at development, fill form
     if (!this.envService.get('production')) {
       this.mockForm();
     }
+    this.prepareBreadcrumb();
   }
 
   public onSubmit() {
@@ -63,6 +67,14 @@ export class ProductCreateComponent {
       name: 'Ice cream caramel 650gr',
       description: 'Caramel ice cream with caramel syrup'
     })
+  }
+
+  private prepareBreadcrumb() {
+    this.breadcrumbService.clear();
+    this.breadcrumbService.set(([
+      new BreadcrumbItem({ label: $localize`My Products`, url: '/products' }),
+      new BreadcrumbItem({ label: $localize`New product..` }),
+    ]))
   }
 
 }
