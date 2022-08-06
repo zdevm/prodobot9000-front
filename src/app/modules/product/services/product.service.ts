@@ -25,6 +25,11 @@ export class ProductService extends HttpService {
                     .pipe(map(ProductService.transform))
   }
 
+  updateById(id: string, partial: Partial<Product>) {
+    return this.http.put<Product>(`${this.url}/${id}`, partial)
+                    .pipe(map(ProductService.transform))
+  }
+
   deleteById(id: string) {
     return this.http.delete<Product>(`${this.url}/${id}`)
                     .pipe(map(ProductService.transform))

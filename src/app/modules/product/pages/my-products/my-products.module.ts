@@ -4,6 +4,7 @@ import { MyProductsComponent } from './my-products.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgStringPipesModule } from 'ngx-pipes';
+import { FileIdToUrlModule } from '@shared/pipes/file-id-to-url/file-id-to-url.module';
 
 const routes: Routes = [
 
@@ -22,7 +23,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     NgbPaginationModule,
-    NgStringPipesModule
+    NgStringPipesModule,
+    FileIdToUrlModule
   ],
   exports: [RouterModule]
 })

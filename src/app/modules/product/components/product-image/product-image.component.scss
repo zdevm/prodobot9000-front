@@ -1,0 +1,36 @@
+:host {
+    display: inline-block;
+}
+
+img {
+    height: 100%;
+}
+
+.controls {
+    background: rgb(0 0 0);
+    z-index: 1;
+    position: relative;
+    bottom: 60px;
+    height: 40%;
+    font-size: 27px;
+    color: white;
+    opacity: .8;
+    &:hover {
+        opacity: .9;
+    }
+}
+
+#edit-btn {
+    background: none;
+    color: white;
+    border: none;
+}
+
+.editor-tools {
+    position: relative;
+    .close-btn {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+}

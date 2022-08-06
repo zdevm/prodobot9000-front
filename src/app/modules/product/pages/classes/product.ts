@@ -22,4 +22,7 @@ export class Product {
     }
   }
 
+  @Expose()
+  image?: string; // file ID
+
 }

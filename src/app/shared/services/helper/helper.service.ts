@@ -9,7 +9,7 @@ export class HelperService {
     if (!object) {
       return undefined;
     }
-    return (object._id || object.id || object)?.toString() || object;
+    return (object.id || object._id || object)?.toString() || object;
   }
 
   /**

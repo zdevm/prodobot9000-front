@@ -1,0 +1,26 @@
+<!-- View image-->
+<ng-container *ngIf="isEditing === false; else editingTemplate">
+    <img (mouseover)="onHoverIn()" (mouseout)="onHoverOut()" *ngIf="fileId; else noImageTemplate" src="{{fileId | fileIdToUrl}}">
+    <ng-template #noImageTemplate>
+        <div class="bg-light h-100" style="width: 150px" (mouseover)="onHoverIn()" (mouseout)="onHoverOut()">
+            <span style="position: relative; top: 30%; font-size: 12px">No image available</span>
+        </div>
+    </ng-template>
+
+    <div class="controls" *ngIf="true || showControls">
+        <button id="edit-btn" (click)="onEditBtn()">
+            <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+</ng-container>
+
+<ng-template #editingTemplate>
+    <div class="h-100">
+        <div *ngIf="showEditorTools" class="editor-tools">
+            <button class="close-btn btn btn-danger" (click)="onCloseBtn()">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+        <single-file-uploader i18n-label label="Drop an image" (fileUploaded)="onFileUploaded($event)" (statusUpdated)="onUploaderStatus($event)"></single-file-uploader>        
+    </div>
+</ng-template>

@@ -1,0 +1,28 @@
+<ng-container [ngSwitch]="status">
+    <!-- Waiting for file -->
+    <ng-container *ngSwitchCase="'pending'">
+        <ngx-dropzone id="upload-container" [multiple]="false" (change)="onSelect($event)">
+            <ngx-dropzone-label>{{label}}</ngx-dropzone-label>
+        </ngx-dropzone>
+    </ng-container>
+    <!-- Uploading -->
+    <ng-container *ngSwitchCase="'uploading'">
+        <div class="spinner-grow text-dark" role="status">
+            <span class="visually-hidden" i18n>Uploading file...</span>
+          </div>
+    </ng-container>
+    <!-- File uploaded successfully -->
+    <ng-container *ngSwitchCase="'succeeded'">
+        <div class="text-center">
+            <i class="animate__animated animate__fadeIn success-icon text-success bi bi-check-lg"></i>
+        </div>
+    </ng-container>
+    <!-- Uploading failed -->
+    <ng-container *ngSwitchCase="'failed'">
+        <div class="text-center">
+            <i class="animate__animated animate__fadeIn fail-icon text-danger bi bi-x-lg"></i>
+        </div>
+    </ng-container>
+</ng-container>
+
+

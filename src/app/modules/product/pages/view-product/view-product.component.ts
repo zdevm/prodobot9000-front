@@ -4,6 +4,7 @@ import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
 import { BreadcrumbService } from '@modules/breadcrumb/services/breadcrumb.service';
 import { ProductService } from '@modules/product/services/product.service';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
+import { HelperService } from '@shared/services/helper/helper.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Product } from '../classes/product';
@@ -73,6 +74,18 @@ export class ViewProductComponent implements OnDestroy {
         showConfirmButton: false
       });
       this.router.navigate(['/products']);
+    })
+  }
+
+  onImageUpdated(fileId: string) {
+    const productId = HelperService.id(this.product);
+    if (!productId) {
+      return;
+    }
+    this.productService.updateById(productId, { image: fileId }).subscribe({
+      next: updatedProduct => {
+        this.product = updatedProduct;
+      }
     })
   }
 
