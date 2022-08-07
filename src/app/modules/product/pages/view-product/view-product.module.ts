@@ -11,6 +11,7 @@ import { ProviderFormModule } from '@modules/rate-provider/components/provider-f
 import { SetupProviderModule } from '@modules/product/components/setup-provider/setup-provider.module';
 import { AsyncButtonModule } from '@shared/directives/async-button/async-button.module';
 import { RatesTableModule } from '@modules/product/components/rates-table/rates-table.module';
+import { EditProductModule } from '@modules/product/components/edit-product/edit-product.module';
 
 const routes: Routes = [
 
@@ -36,7 +37,8 @@ const routes: Routes = [
     ProviderFormModule,
     SetupProviderModule,
     AsyncButtonModule,
-    RatesTableModule
+    RatesTableModule,
+    EditProductModule
   ],
   exports: [RouterModule]
 })

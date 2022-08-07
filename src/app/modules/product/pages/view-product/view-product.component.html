@@ -6,11 +6,20 @@
         <div class="col-md-3 col-12 text-center">
             <product-image id="product-image" [fileId]="product.image" (imageSaved)="onImageUpdated($event)"></product-image>
         </div>
+
+        <!-- Name and description -->
         <div class="col-md col-12">
-            <h1>{{product.name}}</h1>
-            <div class="col-12">
-                <p *ngIf="product.description">{{product.description}}</p>
-            </div>
+            <!-- VIEW MODE -->
+            <ng-container *ngIf="!editModeOn; else editMode">
+                <h1>{{product.name}}</h1>
+                <div class="col-12">
+                    <p *ngIf="product.description">{{product.description}}</p>
+                </div>
+            </ng-container>
+            <!-- EDIT MODE -->
+            <ng-template #editMode>
+                <edit-product [product]="product" (productUpdated)="onProductUpdated($event, setEditModeOff)"></edit-product>
+            </ng-template>
         </div>
     </div>
 
@@ -30,9 +39,15 @@
 <!-- footer -->
 <div class="footer px-2 py-2">
     <div class="d-flex justify-content-between">
-        <button class="btn-block btn btn-outline-dark" (click)="onProvidersBtn()" i18n>
+        <!-- Setup providers -->
+        <button class="btn-block btn btn-info" (click)="onProvidersBtn()" i18n>
             <i class="bi bi-sliders"></i>
         </button>
+        <!-- Edit -->
+        <button class="btn-block btn btn-warning" (click)="onEditBtn()" [disabled]="editModeOn" i18n>
+            <i class="bi bi-pencil"></i>
+        </button>
+        <!-- Scan -->
         <div class="d-inline-block">
             <ng-container *ngIf="isDevMode">
                 <button class="btn-block btn btn-light" (click)="onScanBtn(true)">
@@ -45,6 +60,7 @@
                 <i class="bi bi-search"></i>
             </button>
         </div>
+        <!-- Delete -->
         <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
             <i class="bi bi-trash"></i>
         </button>
@@ -59,7 +75,7 @@
         </div>
         <div class="modal-body">
             <div class="mb-3">
-                <setup-provider (productUpdated)="onProductUpdated($event)" [product]="product" #providerSetupForm></setup-provider>
+                <setup-provider (productUpdated)="onProductUpdated($event, closeProvidersModal)" [product]="product" #providerSetupForm></setup-provider>
             </div>
         </div>
         <div class="modal-footer">

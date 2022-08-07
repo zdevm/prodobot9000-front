@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
@@ -8,11 +8,9 @@ import { ProductRateService } from '@modules/product-rate/services/product-rate.
 import { ProductService } from '@modules/product/services/product.service';
 import { RateProviderService } from '@modules/rate-provider/services/rate-provider.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Env } from '@shared/interfaces/env';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { HelperService } from '@shared/services/helper/helper.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
-import { EnvInjectionToken } from 'src/app/app.module';
 import Swal from 'sweetalert2';
 import { Product } from '../../classes/product';
 
@@ -26,6 +24,7 @@ export class ViewProductComponent implements OnDestroy {
   providersModalRef?: NgbModalRef;
   product?: Product;
   rates: ProductRate[] = [];
+  editModeOn = false;
   btnLoadingMap = {
     'scan': false,
   }
@@ -107,14 +106,16 @@ export class ViewProductComponent implements OnDestroy {
     })
   }
 
-  onProductUpdated(product: Product) {
+  onProductUpdated(product: Product, cb?: () => void) {
     Swal.fire({
       icon: 'success',
       titleText: $localize`Product has been successfully updated!`,
       showConfirmButton: true
     })
     this.product = product;
-    this.closeProvidersModal();
+    if (cb) {
+      cb.bind(this)();
+    }
   }
 
   openProvidersModal() {
@@ -136,6 +137,14 @@ export class ViewProductComponent implements OnDestroy {
       throw new Error('Cannot continue without product ID')
     }
     this.scanForRates(productId, mock).subscribe(rates => this.rates = rates);
+  }
+
+  onEditBtn() {
+    this.editModeOn = true;
+  }
+
+  setEditModeOff() {
+    this.editModeOn = false;
   }
 
   private deleteProduct(id: string) {

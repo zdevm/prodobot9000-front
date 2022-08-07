@@ -1,0 +1,17 @@
+<form class="row" *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col-12 mb-3">
+        <label for="name" class="form-label" i18n>Name</label>
+        <input formControlName="name" class="form-control">
+    </div>
+    <div class="col-12 mb-3">
+        <label for="description" class="form-label" i18n>Description</label>
+        <textarea rows="4" id="description" class="form-control" formControlName="description"></textarea>
+    </div>
+    <div class="col-12 text-center mb-5">
+        <button class="btn btn-success" async-btn [async-btn-is-busy]="saveBtnLoader">
+            <span i18n>Save</span>
+            <i class="bi bi-save2"></i>
+        </button>
+    </div>
+</form>
+
