@@ -1,0 +1,19 @@
+<form *ngIf="form" [formGroup]="form">
+
+    <ng-container *ngIf="formSchema?.controls?.length">
+
+        <div *ngFor="let control of formSchema!.controls" class="row">
+            <div class="col-12">
+                <!-- Label -->
+                <label for="{{control.name}}" class="form-label">{{control.label}}</label>
+                
+                <!-- Input - Switch According to control's type -->
+                <ng-container [ngSwitch]="control.controlType">
+                    <provider-url-form-control [formControlName]="control.name" *ngSwitchCase="'url'"></provider-url-form-control>
+                </ng-container>
+            </div>
+        </div>
+
+    </ng-container>
+
+</form>

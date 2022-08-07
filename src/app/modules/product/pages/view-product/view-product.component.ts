@@ -1,8 +1,11 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
 import { BreadcrumbService } from '@modules/breadcrumb/services/breadcrumb.service';
 import { ProductService } from '@modules/product/services/product.service';
+import { RateProviderService } from '@modules/rate-provider/services/rate-provider.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { HelperService } from '@shared/services/helper/helper.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
@@ -15,16 +18,20 @@ import { Product } from '../classes/product';
   styleUrls: ['./view-product.component.scss']
 })
 export class ViewProductComponent implements OnDestroy {
+  @ViewChild('providersModal') providersModal: any;
+  providersModalRef?: NgbModalRef;
   product?: Product;
 
   private unsub$ = new Subject<void>();
 
   constructor(private productService: ProductService,
               private loadingScreen: LoadingScreenService,
+              private readonly rateProviderService: RateProviderService,
+              private readonly fb: FormBuilder,
+              private readonly modalService: NgbModal,
               private readonly route: ActivatedRoute,
               private readonly router: Router,
               private readonly breadcrumbService: BreadcrumbService) {
-
     // watch for params changes
     // if params change, fetch product
     route.params.pipe(takeUntil(this.unsub$))
@@ -87,6 +94,33 @@ export class ViewProductComponent implements OnDestroy {
         this.product = updatedProduct;
       }
     })
+  }
+
+  onProductUpdated(product: Product) {
+    Swal.fire({
+      icon: 'success',
+      titleText: $localize`Product has been successfully updated!`,
+      showConfirmButton: true
+    })
+    this.product = product;
+    this.closeProvidersModal();
+  }
+
+  openProvidersModal() {
+    this.providersModalRef = this.modalService.open(this.providersModal);
+  }
+
+  closeProvidersModal() {
+    this.providersModalRef?.close();
+    this.providersModalRef = undefined;
+  }
+
+  onProvidersBtn() {
+    this.openProvidersModal();
+  }
+
+  onScanBtn() {
+
   }
 
   private deleteProduct(id: string) {

@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+
+    <div class="row">
+        <div class="col-12">
+            <select formControlName="provider" *ngIf="providers.length" class="form-select form-select-lg mb-3" >
+                <option value="" selected disabled hidden i18n>Select provider</option>
+                <option [value]="provider.slug" *ngFor="let provider of providers">{{provider.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="selectedProvider && formSchema">
+        <div class="col-12">
+            <provider-form command="getProduct"
+                           formControlName="providersForm"
+                           [formSchema]="formSchema"></provider-form>
+        </div>
+    </div>
+
+</form>
+

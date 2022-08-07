@@ -1,0 +1,16 @@
+<div class="form-floating">
+    <input id="urlControl"
+           type="url"
+           [placeholder]="placeholder"
+           [disabled]="isDisabled"
+           [class.is-invalid]="status === 'invalid'"
+           [class.is-valid]="status === 'valid'"
+           class="form-control"
+           [value]="value"
+           (change)="inputOnChange($event)" />
+    <ng-container [ngSwitch]="status">
+        <label for="urlControl" *ngSwitchCase="'invalid'" i18n>{{invalidErrorMessage}}</label>
+        <label for="urlControl" *ngSwitchCase="'valid'" i18n>Input is a valid url</label>
+        <label for="urlControl" *ngSwitchCase="'untouched'" i18n>Insert a valid url</label>
+    </ng-container>
+</div>

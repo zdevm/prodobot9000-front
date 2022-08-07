@@ -1,3 +1,4 @@
+import { RateProviderForm } from "@modules/rate-provider/interfaces/form-options.interface";
 import { Expose } from "class-transformer";
 
 
@@ -18,7 +19,7 @@ export class Product {
   @Expose()
   public providersForms!: {
     [key: string]: { // provider's slug
-      getProduct: any;
+      getProduct: RateProviderForm;
     }
   }
 

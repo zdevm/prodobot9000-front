@@ -1,3 +1,5 @@
+import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+
 export class HelperService {
 
   /**
@@ -25,7 +27,7 @@ export class HelperService {
    * Put @val in array.
    * @returns If val is array or falsy, return val - else [val] 
   */
-  static toArray<T>(val: any): T[] | undefined {
+  static toArray<T>(val: any): T[] {
     if (!val || Array.isArray(val)) {
       return val;
     }

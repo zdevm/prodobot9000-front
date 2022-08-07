@@ -6,7 +6,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class LoadingScreenService {
   private loadingScreenOn = false;
-  loader$ = new BehaviorSubject<boolean>(this.loadingScreenOn);
+  loader$ = new BehaviorSubject<boolean>(this.loadingScreenOn); // can only be used by loading-screen component
 
   constructor() { }
 

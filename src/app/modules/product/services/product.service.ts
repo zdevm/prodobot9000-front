@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { RateProviderFormOptions } from '@modules/rate-provider/interfaces/form-options.interface';
 import { PaginateOptions } from '@shared/classes/paginate-options';
 import { Pagination } from '@shared/classes/pagination';
 import { HttpService } from '@shared/services/http/http.service';
@@ -38,6 +39,13 @@ export class ProductService extends HttpService {
   getMyProducts(paginateOptions: PaginateOptions) {
     return this.http.get<Pagination<Product>>(`${this.url}`, { params: paginateOptions as any })
                     .pipe(map(ProductService.transformPagination))
+  }
+
+  setFormForProviderCommand(id: string,
+                            providerSlug: string,
+                            command: keyof RateProviderFormOptions,
+                            form: any) {
+    return this.http.put<Product>(`${this.url}/${id}/provider-form/${providerSlug}/${command}`, form);
   }
 
   static transformPagination(rawPagination: Pagination<any>) {

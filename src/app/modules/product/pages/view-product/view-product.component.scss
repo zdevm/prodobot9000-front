@@ -1,7 +1,14 @@
+$footer-bg: whitesmoke;
+
 #product-image {
     height: 150px;
 }
 
 .cursor-def {
     cursor: default;
+}
+
+.footer {
+    background-color: $footer-bg;
+    border-top: 1px solid darken($footer-bg, 20);
 }

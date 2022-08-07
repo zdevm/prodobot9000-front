@@ -26,10 +26,42 @@
         </div>
     </div>
 
-    <div class="row flex-grow-1">
-        <div class="col-12 text-center align-self-end">
-            <button class="btn btn-danger mb-3" (click)="onDeleteBtn()" i18n>Delete product</button>
+    <!-- footer -->
+    <div class="row flex-grow-1 align-items-end mt-3">
+        <div class="col-12 px-0">
+            <div class="footer py-2 px-2">
+                <div class="d-flex justify-content-between">
+                    <button class="btn-block btn btn-outline-dark" (click)="onProvidersBtn()" i18n>
+                            <i class="bi bi-sliders"></i>
+                            <!-- <span>Providers</span> -->
+                    </button>
+                    <button class="btn-block btn btn-primary" (click)="onScanBtn()" i18n>
+                        <i class="bi bi-search"></i>
+                        <!-- <span>Scan</span> -->
+                    </button>
+                    <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
+                        <i class="bi bi-trash"></i>
+                        <!-- <span>Delete</span> -->
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
+
+<ng-template #providersModal let-modal>
+    <ng-container *ngIf="product">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Set-up a provider</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <setup-provider (productUpdated)="onProductUpdated($event)" [product]="product" #providerSetupForm></setup-provider>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" [disabled]="providerSetupForm.form.invalid" (click)="providerSetupForm.save()">Save</button>
+        </div>
+    </ng-container>
+</ng-template>
