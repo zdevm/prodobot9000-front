@@ -4,9 +4,11 @@ import { PaginateOptions } from '@shared/classes/paginate-options';
 import { Pagination } from '@shared/classes/pagination';
 import { HttpService } from '@shared/services/http/http.service';
 import { plainToInstance } from 'class-transformer';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CreateProductDto } from '../dto/create-product.dto';
-import { Product } from '../pages/classes/product';
+import { Product } from '../classes/product';
+import { ProductRate } from '../../product-rate/classes/product-rate';
+import { HelperService } from '@shared/services/helper/helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +41,15 @@ export class ProductService extends HttpService {
   getMyProducts(paginateOptions: PaginateOptions) {
     return this.http.get<Pagination<Product>>(`${this.url}`, { params: paginateOptions as any })
                     .pipe(map(ProductService.transformPagination))
+  }
+
+  scanForRates(id: string, mock = false): Observable<ProductRate[]> {
+    const params: any = {};
+    if (mock) {
+      params.mock = true;
+    }
+    return this.http.get<Pagination<Product>>(`${this.url}/${id}/scan-prices`, { params })
+                    .pipe(map(raw => HelperService.toArray(plainToInstance(ProductRate, raw))))
   }
 
   setFormForProviderCommand(id: string,

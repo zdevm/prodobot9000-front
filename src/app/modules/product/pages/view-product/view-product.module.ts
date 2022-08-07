@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProviderFormModule } from '@modules/rate-provider/components/provider-form/provider-form.module';
 import { SetupProviderModule } from '@modules/product/components/setup-provider/setup-provider.module';
+import { AsyncButtonModule } from '@shared/directives/async-button/async-button.module';
+import { RatesTableModule } from '@modules/product/components/rates-table/rates-table.module';
 
 const routes: Routes = [
 
@@ -32,7 +34,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgbModalModule,
     ProviderFormModule,
-    SetupProviderModule
+    SetupProviderModule,
+    AsyncButtonModule,
+    RatesTableModule
   ],
   exports: [RouterModule]
 })

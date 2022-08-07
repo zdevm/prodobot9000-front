@@ -6,7 +6,7 @@ import { PaginateOptions } from '@shared/classes/paginate-options';
 import { Pagination } from '@shared/classes/pagination';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { finalize } from 'rxjs';
-import { Product } from '../classes/product';
+import { Product } from '../../classes/product';
 
 @Component({
   selector: 'app-my-products',

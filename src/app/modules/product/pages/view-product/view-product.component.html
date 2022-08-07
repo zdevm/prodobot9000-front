@@ -15,14 +15,14 @@
     </div>
 
     <div class="row">
-        <div class="col-auto" i18n>
-            <span class="fw-bold">Providers</span>
-        </div>
-        <div class="col-10">
-            <span class="badge rounded-pill text-bg-primary cursor-def" *ngFor="let provider of product.providers">
-                {{provider}}
-                <button type="button" class="btn-close" aria-label="Remove provider"></button>
-            </span>
+        <div class="col-12">
+            <ng-container *ngIf="rates.length; else noRates">
+                <p class="text-muted">Latest scanned rates</p>
+                <product-rates-table [rates]="rates"></product-rates-table>
+            </ng-container>
+            <ng-template #noRates>
+                <p class="text-muted" i18n>You didn't perform any scans yet.</p>
+            </ng-template>
         </div>
     </div>
 
@@ -32,16 +32,22 @@
             <div class="footer py-2 px-2">
                 <div class="d-flex justify-content-between">
                     <button class="btn-block btn btn-outline-dark" (click)="onProvidersBtn()" i18n>
-                            <i class="bi bi-sliders"></i>
-                            <!-- <span>Providers</span> -->
+                        <i class="bi bi-sliders"></i>
                     </button>
-                    <button class="btn-block btn btn-primary" (click)="onScanBtn()" i18n>
-                        <i class="bi bi-search"></i>
-                        <!-- <span>Scan</span> -->
-                    </button>
+                    <div class="d-inline-block">
+                        <ng-container *ngIf="isDevMode">
+                            <button class="btn-block btn btn-light" (click)="onScanBtn(true)">
+                                <i class="bi bi-bug"></i>
+                            </button>
+                            <br>
+                        </ng-container>
+                        <button class="btn-block btn btn-primary" async-btn [async-btn-is-busy]="btnLoadingMap['scan']" (click)="onScanBtn()" i18n>
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+
                     <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
                         <i class="bi bi-trash"></i>
-                        <!-- <span>Delete</span> -->
                     </button>
                 </div>
             </div>
@@ -52,7 +58,7 @@
 <ng-template #providersModal let-modal>
     <ng-container *ngIf="product">
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Set-up a provider</h4>
+            <h4 class="modal-title" id="modal-basic-title" i18n>Set-up a provider</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">

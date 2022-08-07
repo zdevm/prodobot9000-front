@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product } from '@modules/product/pages/classes/product';
+import { Product } from '@modules/product/classes/product';
 import { ProductService } from '@modules/product/services/product.service';
 import { RateProvider } from '@modules/rate-provider/classes/rate-provider';
 import { RateProviderForm } from '@modules/rate-provider/interfaces/form-options.interface';

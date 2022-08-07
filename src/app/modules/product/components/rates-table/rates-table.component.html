@@ -1,0 +1,18 @@
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th i18n>Provider</th>
+                <th i18n>Price</th>
+                <th i18n>Scan date</th>
+            </tr>            
+        </thead>
+        <tbody>
+            <tr *ngFor="let rate of rates">
+                <td>{{rate.providerSlug}}</td>
+                <td>{{rate.price | currency: rate.currency}}</td>
+                <td>{{rate.createdAt | date: 'YYYY-MM-dd HH:mm'}}</td>
+            </tr>            
+        </tbody>
+    </table>
+</div>

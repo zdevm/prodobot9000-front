@@ -1,6 +1,7 @@
 import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 export class HelperService {
+  static isDevMode = false;
 
   /**
    * Return object's identifier
