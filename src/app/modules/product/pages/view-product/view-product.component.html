@@ -25,33 +25,29 @@
             </ng-template>
         </div>
     </div>
+</div>
 
-    <!-- footer -->
-    <div class="row flex-grow-1 align-items-end mt-3">
-        <div class="col-12 px-0">
-            <div class="footer py-2 px-2">
-                <div class="d-flex justify-content-between">
-                    <button class="btn-block btn btn-outline-dark" (click)="onProvidersBtn()" i18n>
-                        <i class="bi bi-sliders"></i>
-                    </button>
-                    <div class="d-inline-block">
-                        <ng-container *ngIf="isDevMode">
-                            <button class="btn-block btn btn-light" (click)="onScanBtn(true)">
-                                <i class="bi bi-bug"></i>
-                            </button>
-                            <br>
-                        </ng-container>
-                        <button class="btn-block btn btn-primary" async-btn [async-btn-is-busy]="btnLoadingMap['scan']" (click)="onScanBtn()" i18n>
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-
-                    <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
+<!-- footer -->
+<div class="footer px-2 py-2">
+    <div class="d-flex justify-content-between">
+        <button class="btn-block btn btn-outline-dark" (click)="onProvidersBtn()" i18n>
+            <i class="bi bi-sliders"></i>
+        </button>
+        <div class="d-inline-block">
+            <ng-container *ngIf="isDevMode">
+                <button class="btn-block btn btn-light" (click)="onScanBtn(true)">
+                    <i class="bi bi-bug"></i>
+                </button>
+                <br>
+            </ng-container>
+            <button class="btn-block btn btn-primary" async-btn [async-btn-is-busy]="btnLoadingMap['scan']"
+                (click)="onScanBtn()" i18n>
+                <i class="bi bi-search"></i>
+            </button>
         </div>
+        <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
+            <i class="bi bi-trash"></i>
+        </button>
     </div>
 </div>
 

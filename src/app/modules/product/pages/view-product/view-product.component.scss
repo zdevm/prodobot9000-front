@@ -1,4 +1,10 @@
+$footer-height: 55px;
 $footer-bg: whitesmoke;
+
+:host {
+    padding-bottom: $footer-height;
+    display: block;
+}
 
 #product-image {
     height: 150px;
@@ -11,4 +17,9 @@ $footer-bg: whitesmoke;
 .footer {
     background-color: $footer-bg;
     border-top: 1px solid darken($footer-bg, 20);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: $footer-height;
 }
