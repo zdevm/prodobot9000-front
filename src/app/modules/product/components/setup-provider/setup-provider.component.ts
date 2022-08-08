@@ -6,6 +6,7 @@ import { RateProvider } from '@modules/rate-provider/classes/rate-provider';
 import { RateProviderForm } from '@modules/rate-provider/interfaces/form-options.interface';
 import { RateProviderService } from '@modules/rate-provider/services/rate-provider.service';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
+import { HelperService } from '@shared/services/helper/helper.service';
 import { finalize, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -75,6 +76,25 @@ export class SetupProviderComponent implements OnInit, OnDestroy {
     this.setLoading(true);
     return this.rateProviderService.getFormOptions(providerSlug)
                                    .pipe(finalize(() => this.setLoading(false)))
+  }
+
+  removeProviderForm(id: string, providerSlug: string) {
+    this.setLoading(true);
+    return this.productService.removeProviderForm(id, providerSlug, 'getProduct')
+                              .pipe(finalize(() => this.setLoading(false)))
+  }
+  
+  onRemoveProviderBtn() {
+    const productId = HelperService.id(this.product);
+    if (!productId) {
+      throw new Error('Cannot continue without product ID');
+    }
+    if (!this.selectedProvider?.slug) {
+      throw new Error('Cannot continue without provider');
+    }
+    this.removeProviderForm(productId, this.selectedProvider?.slug).subscribe(updatedProduct => {
+      this.productUpdated.emit(updatedProduct);
+    })
   }
 
   save() {

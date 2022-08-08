@@ -59,6 +59,12 @@ export class ProductService extends HttpService {
     return this.http.put<Product>(`${this.url}/${id}/provider-form/${providerSlug}/${command}`, form);
   }
 
+  removeProviderForm(id: string,
+                     providerSlug: string,
+                     command: keyof RateProviderFormOptions) {
+    return this.http.delete<Product>(`${this.url}/${id}/provider-form/${providerSlug}/${command}`);
+  }
+
   static transformPagination(rawPagination: Pagination<any>) {
     const pagination = plainToInstance(Pagination<Product>, rawPagination, { excludeExtraneousValues: true })
     pagination.docs = ProductService.transform(rawPagination.docs || []) as any;
