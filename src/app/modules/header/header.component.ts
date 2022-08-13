@@ -12,7 +12,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 export class HeaderComponent implements OnDestroy {
   canGoBack = false;
   title$: Observable<string>;
-  private history: string[] = ['/'];
+  private history: string[] = ['/menu'];
   private unsub$ = new Subject<void>();
 
   constructor(private readonly router: Router,
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnDestroy {
 
   private popHistory() {
     const previousUrl = this.history.pop();
-    if (!previousUrl) {
+    if (this.history.length === 1) {
       this.canGoBack = false;
     }
     return previousUrl;
