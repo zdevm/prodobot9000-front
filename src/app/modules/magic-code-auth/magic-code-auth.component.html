@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="step">
+    <step-email (submittedForm)="onEmail($event.email)" *ngSwitchCase="'email'"></step-email>
+    <step-code [remainingSeconds$]="countingRemainingSecondsInterval$!" (submittedForm)="onCode($event.code)" *ngSwitchCase="'code'"></step-code>
+</ng-container>

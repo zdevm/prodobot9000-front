@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-12">
+        <img class="img-fluid" src="/assets/images/login-thumb.jpg">
+    </div>
+</div>
+<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col-12">
+        <div class="mb-3">
+            <label for="email" class="form-label fw-bold">Email address</label>
+            <input formControlName="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text" i18n>Insert a valid email address. We will send you a code there!</div>
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary" i18n>Send code</button>
+    </div>
+</form>

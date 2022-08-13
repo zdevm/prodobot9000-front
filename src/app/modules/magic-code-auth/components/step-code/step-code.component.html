@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-12">
+        <img class="img-fluid" src="/assets/images/login-sent.jpg">
+        <p class="text-center text-muted">Check your email, we sent you a code!!!</p>
+    </div>
+</div>
+<form class="row" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col-12">
+        <div class="mb-3">
+            <label for="code" class="form-label fw-bold">Magic Code</label>
+            <input formControlName="code" type="number" class="form-control" id="code" aria-describedby="codeHelp">
+            <div id="codeHelp" class="form-text" i18n>Insert the code we sent to your email address</div>
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        <p class="display-5" [hidden]="showRemainingTime">
+            <span id="minutes">05</span>
+            :
+            <span id="seconds">00</span>
+        </p>
+        <button type="submit" class="btn btn-primary" i18n>Verify</button>
+    </div>
+</form>
