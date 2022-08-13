@@ -1,6 +1,5 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { TitleService } from '@shared/services/title/title.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -12,11 +11,11 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 export class HeaderComponent implements OnDestroy {
   canGoBack = false;
   title$: Observable<string>;
-  private history: string[] = ['/menu'];
+  private readonly initialRoute = '/menu';
+  private history: string[] = [this.initialRoute]; // 0 index is the initial route, last index is the current route
   private unsub$ = new Subject<void>();
 
   constructor(private readonly router: Router,
-              private readonly location: Location,
               private readonly titleService: TitleService) {
     this.listenRouter();
     this.title$ = this.titleService.listenTitle();
@@ -28,28 +27,26 @@ export class HeaderComponent implements OnDestroy {
   }
 
   onGoBackBtn() {
-    const previousUrl = this.popHistory();
-    if (previousUrl) {
-      this.location.back();
+    if (this.history.length === 2) { // previous url is the initial route
+      this.popHistory();
+      this.router.navigateByUrl(this.initialRoute, { replaceUrl: true });
+    } else {
+      window.history.back(); // we want 'popstate' to be triggered
     }
   }
 
   private pushHistory(url: string) {
-    if (this.history.length && this.history[this.history.length - 1] === url) { // skip same url
+    if (this.history.at(-1) === url) { // skip same url
       return;
     }
     const len = this.history.push(url);
-    if (len > 1) { // 0 index is the initial route
-      this.canGoBack = true;
-    }
+    this.canGoBack = len > 1; // 0 index is the initial route
   }
 
   private popHistory() {
-    const previousUrl = this.history.pop();
-    if (this.history.length === 1) {
-      this.canGoBack = false;
-    }
-    return previousUrl;
+    const currentUrl = this.history.pop();
+    this.canGoBack = this.history.length > 1; // 0 index is the initial route
+    return currentUrl;
   }
 
   private listenRouter() {
