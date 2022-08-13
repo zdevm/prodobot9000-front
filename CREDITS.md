@@ -12,6 +12,17 @@ Downloaded from: freepik.com
 
 Designed by rawpixel.com / Freepik
 
+## /src/assets/images/404-monster.jpg
+Original filename: 2001.i203.007_cartoon_monster_set-21.jpg
+
+Name: cute-angry-purple-devil-with-little-horns-tail-cartoon-illustration
+
+Downloaded from: freepik.com
+
+[Cute monster vector created by macrovector - www.freepik.com](https://www.freepik.com/vectors/cute-monster)
+
+Designed by macrovector / Freepik
+
 ## /src/assets/images/login-thumb.jpg
 Original filename: 20944201.jpg
 

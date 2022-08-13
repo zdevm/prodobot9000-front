@@ -10,10 +10,12 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { LoginModule } from '@modules/login/login.module';
 import { MenuModule } from '@modules/menu/menu.module';
 import { HeaderModule } from '@modules/header/header.module';
+import { NotFoundComponent } from '@shared/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
