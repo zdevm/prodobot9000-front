@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/menu/menu.module').then(m => m.MenuModule)
   },
   {
+    path: 'users',
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'menu'

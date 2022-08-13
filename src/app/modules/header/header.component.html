@@ -1,11 +1,19 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid"> 
-        <button class="btn btn-light m-0 p-0" (click)="onGoBackBtn()" *ngIf="canGoBack">
+<div class="row g-0 py-3 bg-light align-items-center">
+    <div class="col-4">
+        <button class="ms-3 btn btn-light m-0 p-0" (click)="onGoBackBtn()" *ngIf="canGoBack">
             <i class="text-dark bi bi-arrow-left-short display-5"></i>
-        </button>
-        <span class="navbar-brand mx-auto" routerLink="/">
+        </button>            
+    </div>
+    <div class="col-4 text-center">
+        <h6>
             <!-- <img src="/assets/images/logo.png" alt="A robot" width="48" height="48" class="d-inline-block"> -->
             {{title$ | async | shorten: 20: '...'}}
-        </span>
+        </h6>            
     </div>
-</nav>
+    <div class="col-4 text-end pe-3">
+        <ng-container *ngIf="user$ | async as user">
+            <!-- <span class="me-2" i18n><b>{{user.firstName | ucfirst}}</b></span> -->
+            <img routerLink="/users/profile" class="user-image" *ngIf="userImage" height="38px" width="38px" [src]="userImage">
+        </ng-container>
+    </div>
+</div>

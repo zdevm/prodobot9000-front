@@ -1,7 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { User } from '@modules/user/classes/user';
+import { UserService } from '@modules/user/services/user.service';
 import { TitleService } from '@shared/services/title/title.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'header',
@@ -11,13 +13,21 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 export class HeaderComponent implements OnDestroy {
   canGoBack = false;
   title$: Observable<string>;
+  user$: Observable<User | null>;
+  userImage?: string;
   private readonly initialRoute = '/menu';
   private history: string[] = [this.initialRoute]; // 0 index is the initial route, last index is the current route
   private unsub$ = new Subject<void>();
 
   constructor(private readonly router: Router,
-              private readonly titleService: TitleService) {
+              private readonly titleService: TitleService,
+              private readonly userService: UserService) {
     this.listenRouter();
+    this.user$ = this.userService.user.pipe(tap(user => {
+      if (user && user.image) {
+        this.userImage = user.image
+      }
+    }));
     this.title$ = this.titleService.listenTitle();
   }
 

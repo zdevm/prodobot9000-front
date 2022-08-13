@@ -1,3 +1,10 @@
 :host {
     display: block;
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+}
+
+.user-image {
+    border-radius: 100%;
 }
