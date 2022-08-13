@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { LoginService } from '@modules/login/services/login.service';
+import { UserService } from '@modules/user/services/user.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -13,7 +14,10 @@ export class LoginModalComponent implements AfterViewInit {
   private modalRef?: NgbModalRef
 
   constructor(private readonly modalService: NgbModal,
-              private readonly loginService: LoginService) { }
+              private readonly loginService: LoginService,
+              private readonly userService: UserService) {
+    this.userService.user.subscribe(user => this.close())
+  }
 
   ngAfterViewInit(): void {
     this.loginService.loginModalComponentListener$.subscribe(command => { 
