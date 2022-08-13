@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HelperService } from '@shared/services/helper/helper.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { BreadcrumbItem } from '../classes/breadcrumb-item';
 
 @Injectable({

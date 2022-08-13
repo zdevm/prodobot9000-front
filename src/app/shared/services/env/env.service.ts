@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { Env } from '@shared/interfaces/env';
+import { Env } from '@shared/interfaces/env.interface';
+import { EnvInjectionToken } from '@shared/tokens/env-service.token';
 import { get } from 'lodash-es';
-import { EnvInjectionToken } from 'src/app/app.module';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
-import { BreadcrumbService } from '@modules/breadcrumb/services/breadcrumb.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ProductService } from '@modules/product/services/product.service';
 import { PaginateOptions } from '@shared/classes/paginate-options';
 import { Pagination } from '@shared/classes/pagination';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
+import { TitleService } from '@shared/services/title/title.service';
 import { finalize } from 'rxjs';
 import { Product } from '../../classes/product';
 
@@ -19,14 +18,11 @@ export class MyProductsComponent implements OnInit {
 
   constructor(private readonly productService: ProductService,
               private readonly loadingScreen: LoadingScreenService,
-              private readonly breadcrumbService: BreadcrumbService) {}
+              private readonly titleService: TitleService) {}
 
   ngOnInit(): void {
     this.onPage(1)
-    this.breadcrumbService.clear();
-    this.breadcrumbService.set([
-      new BreadcrumbItem({ label: $localize`My products` }),
-    ])
+    this.titleService.setTitle($localize`My products`);
   }
 
   onPage(page: number) {

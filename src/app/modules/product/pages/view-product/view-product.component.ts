@@ -1,8 +1,6 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumbItem } from '@modules/breadcrumb/classes/breadcrumb-item';
-import { BreadcrumbService } from '@modules/breadcrumb/services/breadcrumb.service';
 import { ProductRate } from '@modules/product-rate/classes/product-rate';
 import { ProductRateService } from '@modules/product-rate/services/product-rate.service';
 import { ProductService } from '@modules/product/services/product.service';
@@ -10,6 +8,7 @@ import { RateProviderService } from '@modules/rate-provider/services/rate-provid
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { HelperService } from '@shared/services/helper/helper.service';
+import { TitleService } from '@shared/services/title/title.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Product } from '../../classes/product';
@@ -34,16 +33,14 @@ export class ViewProductComponent implements OnDestroy {
 
   constructor(private productService: ProductService,
               private loadingScreen: LoadingScreenService,
-              private readonly rateProviderService: RateProviderService,
-              private readonly fb: FormBuilder,
               private readonly modalService: NgbModal,
               private readonly route: ActivatedRoute,
               private readonly productRateService: ProductRateService,
               private readonly router: Router,
-              private readonly breadcrumbService: BreadcrumbService) {
+              private readonly titleService: TitleService) {
     // watch for params changes
     // if params change, fetch product
-    route.params.pipe(takeUntil(this.unsub$))
+    this.route.params.pipe(takeUntil(this.unsub$))
                 .subscribe(async params => {
                   const productId = params['id'];
                   if (!productId) {
@@ -54,7 +51,7 @@ export class ViewProductComponent implements OnDestroy {
                   }
                   this.product = await lastValueFrom(this.fetchProduct(productId));
                   this.rates = await lastValueFrom(this.fetchLastRates(productId)).catch(() => []);
-                  this.prepareBreadcrumb();
+                  this.titleService.setTitle(this.product.name)
                 });
   }
 
@@ -174,16 +171,6 @@ export class ViewProductComponent implements OnDestroy {
 
   private setLoading(show: boolean) {
     this.loadingScreen.show(show);
-  }
-
-  private prepareBreadcrumb() {
-    if (this.product) {
-      this.breadcrumbService.clear();
-      this.breadcrumbService.set(([
-        new BreadcrumbItem({ label: $localize`My Products`, url: '/products' }),
-        new BreadcrumbItem({ label: this.product.name }),
-      ]))
-    };
   }
 
 }

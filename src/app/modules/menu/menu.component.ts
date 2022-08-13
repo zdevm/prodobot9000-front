@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { LoginService } from '@modules/login/services/login.service';
+import { TitleService } from '@shared/services/title/title.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,9 +9,11 @@ import { LoginService } from '@modules/login/services/login.service';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService,
+              private readonly titleService: TitleService) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Prodobot 9000')
   }
 
   onLoginBtn() {
