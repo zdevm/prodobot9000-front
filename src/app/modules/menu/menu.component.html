@@ -1,10 +1,31 @@
 <div>
-    <button class="btn btn-secondary" (click)="onLoginBtn()">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Log in</span>
-    </button>
-    <a class="btn btn-dark" routerLink="/products">
-        <i class="bi bi-basket"></i>
-        <span i18n>My Products</span>
+
+    <!-- Logged in -->
+    <ng-container *ngIf="user; else loggedOut">
+        <!-- My Products -->
+        <a class="btn btn-dark" routerLink="/products">
+            <i class="bi bi-basket"></i>
+            <span i18n>My Products</span>
+        </a>
+    </ng-container>
+    <!-- Logged out -->
+    <ng-template #loggedOut>
+        <!-- Register -->
+        <a class="btn btn-dark" routerLink="/products">
+            <i class="bi bi-basket"></i>
+            <span i18n>Create account</span>
+        </a>
+        <!-- Login -->
+        <button class="btn btn-secondary" (click)="onLoginBtn()">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span i18n>Log in</span>
+        </button>
+    </ng-template>
+    <!-- Common -->
+    <!-- Credits - Third party -->
+    <a class="btn btn-info" routerLink="/credits">
+        <i class="bi bi-info-lg"></i>
+        <span i18n>Credits</span>
     </a>
+
 </div>
