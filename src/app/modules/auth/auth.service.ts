@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
+import { HttpService } from '@shared/services/http/http.service';
 import { CookieService } from 'ngx-cookie-service';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends HttpService {
   private readonly _accessTokenKey = 'accessToken';
   private readonly _refreshTokenKey = 'refreshToken';
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService) {
+    super('auth');
+  }
+
+  reAuthWithRefreshToken(refreshToken: string) {
+    return this.http.post<{ accessToken: string }>(`${this.url}/refresh`, {token: refreshToken});
+  }
 
   get accessToken(): string | null {
     return this.cookieService.get(this._accessTokenKey) || null;
