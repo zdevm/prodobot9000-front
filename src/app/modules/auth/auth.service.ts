@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@shared/services/http/http.service';
 import { CookieService } from 'ngx-cookie-service';
-import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

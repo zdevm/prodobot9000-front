@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from '@modules/auth/auth.service';
 import { HttpService } from '@shared/services/http/http.service';
 import { plainToInstance } from 'class-transformer';
-import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, ReplaySubject, tap } from 'rxjs';
 import { User } from '../classes/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends HttpService {
-  private user$ = new BehaviorSubject<User | null>(null);
+  private user$ = new ReplaySubject<User | null>(1);
 
-  constructor() {
+  constructor(private authService: AuthService) {
     super('users')
   }
 
@@ -24,6 +25,12 @@ export class UserService extends HttpService {
       map(() => true),
       catchError(err => of(false))
     )
+  }
+
+  logout() {
+    this.authService.accessToken = null;
+    this.authService.refreshToken = null;
+    this.setUser(null);
   }
 
   me(): Observable<User> {

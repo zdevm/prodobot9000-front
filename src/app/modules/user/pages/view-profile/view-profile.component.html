@@ -1,1 +1,31 @@
-<img *ngIf="userImage" [src]="userImage" />
+
+<ng-container *ngIf="user">
+
+    <div class="text-center">
+        <img *ngIf="userImage" [src]="userImage" />
+    </div>
+
+    <h4 class="text-center my-2">{{user.firstName | ucfirst}} {{user.lastName | ucfirst}}</h4>
+
+    <!-- Menu -->
+    <div class="d-flex flex-column justify-content-between">
+        <div class="d-grid gap-1">
+            <button class="btn btn-primary" routerLink="/users/profile/edit">
+                <i class="bi bi-pencil"></i>
+                &nbsp;
+                <span i18n>Edit profile</span>
+            </button>
+            <button class="btn btn-dark" (click)="onLogoutBtn()">
+                <i class="bi bi-box-arrow-left"></i>
+                &nbsp;
+                <span i18n>Log out</span>
+            </button>
+            <button class="btn btn-danger"> <!-- TODO delete action -->
+                <i class="bi bi-person-x"></i>
+                &nbsp;
+                <span i18n>Delete account</span>
+            </button>
+        </div>
+    </div>
+
+</ng-container>
