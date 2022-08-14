@@ -7,8 +7,18 @@ import { IsGuestGuard } from '@shared/guards/is-guest/is-guest.guard';
 const routes: Routes  = [
   {
     path: 'profile',
-    loadChildren: () => import('@modules/user/pages/view-profile/view-profile.module').then(m => m.ViewProfileModule),
-    canActivate: [IsUserGuard]
+    children: [
+      {
+        path: 'edit',
+        loadChildren: () => import('@modules/user/pages/edit-profile/edit-profile.module').then(m => m.EditProfileModule),
+        canActivate: [IsUserGuard]
+      },
+      {
+        path: '',
+        loadChildren: () => import('@modules/user/pages/view-profile/view-profile.module').then(m => m.ViewProfileModule),
+        canActivate: [IsUserGuard]
+      }
+    ]
   },
   {
     path: 'register',

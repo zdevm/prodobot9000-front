@@ -20,6 +20,11 @@ export class UserService extends HttpService {
                     .pipe(map(doc => <User>UserService.transform(doc)))
   }
 
+  update(dto: Pick<User, 'lastName' | 'firstName'>): Observable<User> {
+    return this.http.put<User>(`${this.url}`, dto)
+                    .pipe(map(doc => <User>UserService.transform(doc)))
+  }
+
   checkIfEmailExists(email: string) {
     return this.http.get<boolean>(`${this.url}/${email}/exists`).pipe(
       map(() => true),
