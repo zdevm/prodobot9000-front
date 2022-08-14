@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@shared/services/http/http.service';
 import { plainToInstance } from 'class-transformer';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { User } from '../classes/user';
 
 @Injectable({
@@ -12,6 +12,18 @@ export class UserService extends HttpService {
 
   constructor() {
     super('users')
+  }
+
+  register(dto: Pick<User, 'lastName' | 'firstName' | 'email'>): Observable<User> {
+    return this.http.post<User>(`${this.url}/register`, dto)
+                    .pipe(map(doc => <User>UserService.transform(doc)))
+  }
+
+  checkIfEmailExists(email: string) {
+    return this.http.get<boolean>(`${this.url}/${email}/exists`).pipe(
+      map(() => true),
+      catchError(err => of(false))
+    )
   }
 
   me(): Observable<User> {

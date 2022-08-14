@@ -1,0 +1,17 @@
+<form class="row g-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="col">
+        <label for="firstName" class="form-label" i18n>First name</label>
+        <input formControlName="firstName" [validation-classes]="form.controls['firstName']" type="text" class="form-control" id="firstName" placeholder="John..">
+    </div>
+    <div class="col">
+        <label for="lastName" class="form-label" i18n>Last name</label>
+        <input formControlName="lastName" [validation-classes]="form.controls['lastName']" type="text" class="form-control" id="lastName" placeholder="Doe..">
+    </div>
+    <div class="col-12">
+        <label for="email" class="form-label">Email address</label>
+        <input formControlName="email" [validation-classes]="form.controls['email']" type="text" class="form-control" id="email" placeholder="johndoe@example.com..">
+    </div>
+    <div class="col-12 text-end">
+        <button  type="submit" class="btn btn-primary" [disabled]="form.invalid">Register</button>
+    </div>
+</form>

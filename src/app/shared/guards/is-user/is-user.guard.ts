@@ -13,7 +13,7 @@ export class IsUserGuard implements CanActivate {
     return this.userService.user.pipe(
       switchMap(user => !!user ? of(true) : this.userService.me().pipe(map(user => !!user))),
       catchError(() => of(null)),
-      map(hasUser => hasUser ? true :  this.router.parseUrl('/404')) // TODO replace 404
+      map(hasUser => hasUser ? true : this.router.parseUrl('/')) 
     )
   }
   

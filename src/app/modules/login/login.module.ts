@@ -4,8 +4,11 @@ import { LoginModalComponent } from './components/login-modal/login-modal.compon
 import { LoginComponent } from './components/login/login.component';
 import { MagicCodeAuthModule } from '@modules/magic-code-auth/magic-code-auth.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule, Routes } from '@angular/router';
 
-
+const routes: Routes = [
+  { path: '', component: LoginComponent }
+]
 
 @NgModule({
   declarations: [
@@ -15,8 +18,12 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     MagicCodeAuthModule,
-    NgbModalModule
+    NgbModalModule,
+    RouterModule.forChild(routes)
   ],
-  exports: [LoginModalComponent]
+  exports: [
+    LoginModalComponent,
+    RouterModule
+  ]
 })
 export class LoginModule { }
