@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from '@shared/components/not-found/not-found.component';
+import { IsUserGuard } from '@shared/guards/is-user/is-user.guard';
 
 const routes: Routes = [
 
   {
     path: 'products',
-    loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
+    loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule),
+    canActivate: [IsUserGuard]
   },
   {
     path: 'menu',
@@ -22,8 +24,13 @@ const routes: Routes = [
     redirectTo: 'menu'
   },
   {
-    path: '**',
+    path: '404',
     component: NotFoundComponent
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: '404'
   }
 
 ];
