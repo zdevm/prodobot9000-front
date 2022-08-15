@@ -25,6 +25,11 @@ export class UserService extends HttpService {
                     .pipe(map(doc => <User>UserService.transform(doc)))
   }
 
+  delete(): Observable<User> {
+    return this.http.delete<User>(`${this.url}`)
+                    .pipe(map(doc => <User>UserService.transform(doc)))
+  }
+
   checkIfEmailExists(email: string) {
     return this.http.get<boolean>(`${this.url}/${email}/exists`).pipe(
       map(() => true),
