@@ -35,6 +35,8 @@ export class AppComponent implements OnInit {
   private fetchCurrentUser() {
     if (this.authService.accessToken) {
       this.userService.fetchAndSetUser().subscribe();
-    }    
+    } else {
+      this.userService.setUser(null);
+    }
   }
 }
