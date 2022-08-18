@@ -11,6 +11,7 @@ import { LoginModule } from '@modules/login/login.module';
 import { MenuModule } from '@modules/menu/menu.module';
 import { HeaderModule } from '@modules/header/header.module';
 import { NotFoundComponent } from '@shared/components/not-found/not-found.component';
+import "reflect-metadata";
 
 @NgModule({
   declarations: [
