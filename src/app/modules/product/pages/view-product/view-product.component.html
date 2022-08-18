@@ -23,16 +23,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <ng-container *ngIf="rates.length; else noRates">
-                <p class="text-muted">Latest scanned rates</p>
-                <product-rates-table [rates]="rates"></product-rates-table>
-            </ng-container>
-            <ng-template #noRates>
-                <p class="text-muted" i18n>You didn't perform any scans yet.</p>
-            </ng-template>
-        </div>
+    <div class="row" *ngIf="scan">
+        <scan-card [scan]="scan"></scan-card>
     </div>
 </div>
 

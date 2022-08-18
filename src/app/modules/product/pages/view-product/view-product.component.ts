@@ -1,12 +1,14 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductRate } from '@modules/product-rate/classes/product-rate';
 import { ProductRateService } from '@modules/product-rate/services/product-rate.service';
 import { ProductService } from '@modules/product/services/product.service';
-import { RateProviderService } from '@modules/rate-provider/services/rate-provider.service';
+import { Scan } from '@modules/scan/classes/scan';
+import { ScanUpdatedMessage } from '@modules/scan/messages/scan-updated.message';
+import { ScanService } from '@modules/scan/services/scan/scan.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
+import { ExternalEventService } from '@shared/services/external-event/external-event.service';
 import { HelperService } from '@shared/services/helper/helper.service';
 import { TitleService } from '@shared/services/title/title.service';
 import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
@@ -27,6 +29,7 @@ export class ViewProductComponent implements OnDestroy {
   btnLoadingMap = {
     'scan': false,
   }
+  scan?: Scan;
   isDevMode = HelperService.isDevMode;
 
   private unsub$ = new Subject<void>();
@@ -37,7 +40,10 @@ export class ViewProductComponent implements OnDestroy {
               private readonly route: ActivatedRoute,
               private readonly productRateService: ProductRateService,
               private readonly router: Router,
-              private readonly titleService: TitleService) {
+              private readonly titleService: TitleService,
+              private readonly externalEventService: ExternalEventService,
+              private readonly scanService: ScanService,
+              private readonly cd: ChangeDetectorRef) {
     // watch for params changes
     // if params change, fetch product
     this.route.params.pipe(takeUntil(this.unsub$))
@@ -50,7 +56,8 @@ export class ViewProductComponent implements OnDestroy {
                     return;
                   }
                   this.product = await lastValueFrom(this.fetchProduct(productId));
-                  this.rates = await lastValueFrom(this.fetchLastRates(productId)).catch(() => []);
+                  this.scan = await lastValueFrom(this.fetchLatestScan(productId)).catch(() => undefined);
+                  this.listenForExternalEvents();
                   this.titleService.setTitle(this.product.name)
                 });
   }
@@ -133,7 +140,7 @@ export class ViewProductComponent implements OnDestroy {
     if (!productId) {
       throw new Error('Cannot continue without product ID')
     }
-    this.scanForRates(productId, mock).subscribe(rates => this.rates = rates);
+    this.scanForRates(productId, mock).subscribe(scan => this.scan = scan);
   }
 
   onEditBtn() {
@@ -166,11 +173,32 @@ export class ViewProductComponent implements OnDestroy {
     this.setLoading(true);
     return this.productRateService.getLatestOfEachProvider(id)
                                   .pipe(finalize(() => this.setLoading(false)));
+  }
+
+  private fetchLatestScan(productId: string) {
+    this.setLoading(true);
+    return this.scanService.findLatestByProduct(productId)
+                           .pipe(finalize(() => this.setLoading(false)));
     
   }
 
   private setLoading(show: boolean) {
     this.loadingScreen.show(show);
+  }
+
+  private onExternalMessage(message: ScanUpdatedMessage) {
+    this.scan = message.scan;
+    this.cd.detectChanges();
+  }
+
+  private listenForExternalEvents() {
+    this.externalEventService.listen()
+    .pipe(finalize(() => this.unsub$))
+    .subscribe(message => {
+      if (message instanceof ScanUpdatedMessage && HelperService.id(message.scan.product) === this.product!.id) {
+        this.onExternalMessage(message);
+      }
+    })
   }
 
 }

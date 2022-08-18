@@ -1,0 +1,52 @@
+<ng-container *ngIf="scan">
+    <div class="row">
+        <div class="col-6">
+            <span i18n>Scan status: &nbsp;</span>
+            <span class="fw-bold me-1" [class.text-danger]="scan.status === SCAN_STATUS.Failed"
+                                       [class.text-success]="scan.status === SCAN_STATUS.Succeeded">
+                {{ scan.status | humanizeScanStatus }}
+            </span>
+            <ng-container [ngSwitch]="scan.status">
+                <!-- Pending -->
+                <span *ngSwitchCase="SCAN_STATUS.Pending">
+                    <i class="bi bi-stopwatch text-muted"></i>
+                </span>
+                <!-- Scanning -->
+                <span *ngSwitchCase="SCAN_STATUS.Scanning" class="spinner-border spinner-border-sm text-primary" role="status">
+                    <span class="visually-hidden">{{ scan.status | humanizeScanStatus }}...</span>
+                </span>
+                <!-- Succeeded -->
+                <span *ngSwitchCase="SCAN_STATUS.Succeeded">
+                    <i class="bi bi-check text-success"></i>
+                </span>
+                <!-- Failed -->
+                <span *ngSwitchCase="SCAN_STATUS.Failed">
+                    <i class="bi bi-x-lg text-danger"></i>
+                </span>
+            </ng-container>
+        </div>
+        <div class="col-6 text-end text-muted">
+            {{ scan.trigger | humanizeScanTrigger }}
+        </div>
+    </div>
+    <div class="row" *ngIf="scan.rates.length">
+        <div class="col-12">
+            <product-rates-table [rates]="scan.rates" ></product-rates-table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <ng-container *ngIf="duration">
+                <span i18n>Took:&nbsp;</span>
+                <span class="fw-bold">{{ duration | humanizeDuration }}</span>
+            </ng-container>
+        </div>
+        <div class="col-6 text-end">
+            <div *ngIf="scan.completedAt">
+                <small i18n>Completed &nbsp;</small>
+                <small class="fw-bold" [ngbTooltip]="scan.completedAt | date: 'long'">{{ { dateA: scan.completedAt } | humanizeTimeDiff }}</small>
+            </div>
+        </div>
+    </div>
+</ng-container>
+

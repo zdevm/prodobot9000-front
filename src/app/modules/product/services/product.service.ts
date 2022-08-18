@@ -7,8 +7,7 @@ import { plainToInstance } from 'class-transformer';
 import { map, Observable } from 'rxjs';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { Product } from '../classes/product';
-import { ProductRate } from '../../product-rate/classes/product-rate';
-import { HelperService } from '@shared/services/helper/helper.service';
+import { Scan } from '@modules/scan/classes/scan';
 
 @Injectable({
   providedIn: 'root'
@@ -43,13 +42,13 @@ export class ProductService extends HttpService {
                     .pipe(map(ProductService.transformPagination))
   }
 
-  scanForRates(id: string, mock = false): Observable<ProductRate[]> {
+  scanForRates(id: string, mock = false): Observable<Scan> {
     const params: any = {};
     if (mock) {
       params.mock = true;
     }
     return this.http.get<Pagination<Product>>(`${this.url}/${id}/scan-prices`, { params })
-                    .pipe(map(raw => HelperService.toArray(plainToInstance(ProductRate, raw))))
+                    .pipe(map(raw => plainToInstance(Scan, raw)))
   }
 
   setFormForProviderCommand(id: string,
