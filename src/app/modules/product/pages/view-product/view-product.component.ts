@@ -15,16 +15,20 @@ import { finalize, lastValueFrom, Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Product } from '../../classes/product';
 
+type ModalDisplay =  'providers-form' | 'price-history';
 @Component({
   selector: 'app-view-product',
   templateUrl: './view-product.component.html',
   styleUrls: ['./view-product.component.scss']
 })
 export class ViewProductComponent implements OnDestroy {
-  @ViewChild('providersModal') providersModal: any;
-  providersModalRef?: NgbModalRef;
+  modalToDisplay?: ModalDisplay;
+  @ViewChild('genericModal') genericModal: any;
+  genericModalRef?: NgbModalRef;
+
   product?: Product;
   rates: ProductRate[] = [];
+  priceHistoryRawData: { date: string; rates: Pick<ProductRate, 'providerSlug' | 'price'>[]; }[] = [];
   editModeOn = false;
   btnLoadingMap = {
     'scan': false,
@@ -122,17 +126,20 @@ export class ViewProductComponent implements OnDestroy {
     }
   }
 
-  openProvidersModal() {
-    this.providersModalRef = this.modalService.open(this.providersModal);
+  openModal(display: ModalDisplay) {
+    this.closeModal();
+    this.modalToDisplay = display;
+    this.genericModalRef = this.modalService.open(this.genericModal);
   }
 
-  closeProvidersModal() {
-    this.providersModalRef?.close();
-    this.providersModalRef = undefined;
+  closeModal() {
+    this.modalToDisplay = undefined;
+    this.genericModalRef?.close();
+    this.genericModalRef = undefined;
   }
 
   onProvidersBtn() {
-    this.openProvidersModal();
+    this.openModal('providers-form');
   }
 
   onScanBtn(mock = false) {
@@ -145,6 +152,13 @@ export class ViewProductComponent implements OnDestroy {
 
   onEditBtn() {
     this.editModeOn = true;
+  }
+
+  onPriceHistoryBtn() {
+    this.fetchPriceHistory(this.product!.id).subscribe(history => {
+      this.priceHistoryRawData = history;
+      this.openModal('price-history')
+    })
   }
 
   setEditModeOff() {
@@ -180,6 +194,12 @@ export class ViewProductComponent implements OnDestroy {
     return this.scanService.findLatestByProduct(productId)
                            .pipe(finalize(() => this.setLoading(false)));
     
+  }
+
+  private fetchPriceHistory(id: string) {
+    this.setLoading(true);
+    return this.productRateService.getPriceHistoryOfProduct(id)
+                                  .pipe(finalize(() => this.setLoading(false)));
   }
 
   private setLoading(show: boolean) {

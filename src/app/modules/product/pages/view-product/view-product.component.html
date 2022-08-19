@@ -35,6 +35,10 @@
         <button class="btn-block btn btn-info" (click)="onProvidersBtn()" i18n>
             <i class="bi bi-sliders"></i>
         </button>
+        <!-- Price history -->
+        <button class="btn-block btn btn-dark" (click)="onPriceHistoryBtn()" i18n>
+            <i class="bi bi-graph-up"></i>
+        </button>
         <!-- Edit -->
         <button class="btn-block btn btn-warning" (click)="onEditBtn()" [disabled]="editModeOn" i18n>
             <i class="bi bi-pencil"></i>
@@ -59,19 +63,34 @@
     </div>
 </div>
 
-<ng-template #providersModal let-modal>
-    <ng-container *ngIf="product">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title" i18n>Set-up a provider</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-            <div class="mb-3">
-                <setup-provider (productUpdated)="onProductUpdated($event, closeProvidersModal)" [product]="product" #providerSetupForm></setup-provider>
+<ng-template #genericModal let-modal>
+    <ng-container  *ngIf="product" [ngSwitch]="modalToDisplay">
+        <!-- Providers form -->
+        <ng-container *ngSwitchCase="'providers-form'">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title" i18n>Set-up a provider</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" [disabled]="providerSetupForm.form.invalid" (click)="providerSetupForm.save()">Save</button>
-        </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <setup-provider (productUpdated)="onProductUpdated($event, closeModal)" [product]="product" #providerSetupForm></setup-provider>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" [disabled]="providerSetupForm.form.invalid" (click)="providerSetupForm.save()">Save</button>
+            </div>
+        </ng-container>
+        <!-- Price history -->
+        <ng-container *ngSwitchCase="'price-history'">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title" i18n>Price history</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <price-history [data]="priceHistoryRawData"></price-history>
+                </div>
+            </div>
+        </ng-container>
     </ng-container>
 </ng-template>

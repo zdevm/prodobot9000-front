@@ -18,6 +18,10 @@ export class ProductRateService extends HttpService {
                     .pipe(map((docs: any[]) => <ProductRate[]>ProductRateService.transform(docs)));
   }
 
+  getPriceHistoryOfProduct(productId: string): Observable<{ date: string; rates: Pick<ProductRate, 'providerSlug' | 'price'>[]; }[]> {
+    return this.http.get<any[]>(`${this.url}/${productId}/history`);
+  }
+
   static transform(doc: any): ProductRate | ProductRate[] {
     return plainToInstance(ProductRate, doc);
   }

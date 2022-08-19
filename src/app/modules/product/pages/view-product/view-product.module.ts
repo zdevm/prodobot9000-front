@@ -13,6 +13,7 @@ import { AsyncButtonModule } from '@shared/directives/async-button/async-button.
 import { RatesTableModule } from '@modules/product/components/rates-table/rates-table.module';
 import { EditProductModule } from '@modules/product/components/edit-product/edit-product.module';
 import { ScanCardModule } from '@modules/scan/components/scan-card/scan-card.module';
+import { PriceHistoryModule } from '@modules/product/components/price-history/price-history.module';
 
 const routes: Routes = [
 
@@ -39,7 +40,8 @@ const routes: Routes = [
     SetupProviderModule,
     AsyncButtonModule,
     EditProductModule,
-    ScanCardModule
+    ScanCardModule,
+    PriceHistoryModule
   ],
   exports: [RouterModule]
 })
