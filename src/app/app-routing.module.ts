@@ -25,6 +25,10 @@ const routes: Routes = [
     canActivate: [IsGuestGuard]
   },
   {
+    path: 'credits',
+    loadChildren: () => import('./modules/credits/credits.module').then(m => m.CreditsModule),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'menu'

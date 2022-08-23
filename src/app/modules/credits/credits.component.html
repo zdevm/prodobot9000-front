@@ -1,0 +1,28 @@
+<div class="element" *ngFor="let image of images">
+    <img [src]="image.localAsset" height="150px" />
+    <p *ngFor="let key of (image | keys)">
+        <b *ngIf="keyMap[key]">{{keyMap[key]}}: </b>
+        <ng-container *ngIf="key === 'url'; else notUrl">
+            <a [href]="image.url!.href">{{image.url!.text}}</a>
+        </ng-container>
+        <ng-template #notUrl>
+            {{$any(image)[key]}}
+        </ng-template>
+    </p>
+</div>
+<!-- Logo -->
+<div class="element">
+    <img src="assets/images/logo.png" height="150px" />
+    <p i18n>Logo is a combination of two images</p>
+    <ul>
+        <li>
+            <a href="https://pixabay.com/vectors/android-artificial-cute-doodle-161007">Robot</a>
+        </li>
+        <li>
+            <a href="https://pixabay.com/vectors/smiley-emoticon-money-dollars-face-1635464/">Smiley face</a>
+        </li>
+    </ul>
+    <p>
+        Both downloaded from pixabay.com
+    </p>
+</div>
