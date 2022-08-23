@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UploaderStatus } from '@modules/file-uploader/components/single-file-uploader/single-file-uploader.component';
 import { ProductService } from '@modules/product/services/product.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'product-image',
@@ -48,6 +49,8 @@ export class ProductImageComponent {
       case 'pending':
       case 'failed': {
         this.showEditorTools = true;
+        this.alertFail();
+        this.onCloseBtn();
         break;
       }
       case 'succeeded': {
@@ -57,6 +60,14 @@ export class ProductImageComponent {
         break;
       }
     }
+  }
+
+  private alertFail() {
+    Swal.fire({
+      icon: 'warning',
+      title: $localize`Failed to upload image!`,
+      text: $localize`Please check that the input file is no bigger than 3MB and it's type is .jpg, .jpeg or .png`
+    })
   }
 
 }
