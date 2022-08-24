@@ -1,8 +1,13 @@
+@import 'src/theme';
+
 :host {
     display: block;
-    position: sticky;
+    position: fixed;
     top: 0px;
+    height: $header-height;
     z-index: 1000;
+    overflow-y: hidden;
+    width: 100%;
 }
 
 .user-image {

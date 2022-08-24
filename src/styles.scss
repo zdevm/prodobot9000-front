@@ -1,8 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'theme';
 
-/* Importing Bootstrap SCSS file. */
 html, body {
     height: 100%;
+}
+
+body {
+    padding-top: $header-height;
 }
 
 @import '~bootstrap/scss/bootstrap';

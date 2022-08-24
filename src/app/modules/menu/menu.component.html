@@ -1,5 +1,12 @@
 <div>
 
+    <div class="text-center mb-3">
+        <h2 color="color: #404040">
+            Hello, {{user ? user.firstName : 'friend'}}!
+        </h2>
+        <img  height="150" src="assets/images/logo.png" />
+    </div>
+
     <!-- Logged in -->
     <ng-container *ngIf="user; else loggedOut">
         <!-- My Products -->
