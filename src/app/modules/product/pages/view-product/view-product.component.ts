@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import { Product } from '../../classes/product';
 
 type ModalDisplay =  'providers-form' | 'price-history';
+
 @Component({
   selector: 'app-view-product',
   templateUrl: './view-product.component.html',

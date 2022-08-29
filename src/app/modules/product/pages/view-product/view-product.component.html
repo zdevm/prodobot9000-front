@@ -1,67 +1,80 @@
 <p *ngIf="!product">Product is loading...</p>
 
-<div *ngIf="product" class="h-100 d-flex flex-column">
+<ng-container *ngIf="product">
+    <div class="h-100 d-flex flex-column">
 
-    <div class="row">
-        <div class="col-md-3 col-12 text-center">
-            <product-image id="product-image" [fileId]="product.image" (imageSaved)="onImageUpdated($event)"></product-image>
-        </div>
-
-        <!-- Name and description -->
-        <div class="col-md col-12">
-            <!-- VIEW MODE -->
-            <ng-container *ngIf="!editModeOn; else editMode">
-                <h1>{{product.name}}</h1>
-                <div class="col-12">
-                    <p *ngIf="product.description">{{product.description}}</p>
+        <div class="row" *ngIf="!product.providers.length">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <span i18n>Setup price providers in order to be able to scan for prices.&nbsp;</span>
+                    <span class="fw-bold me-2" i18n>Click to setup</span>
+                    <button class="btn-block btn btn-info" (click)="onProvidersBtn()" >
+                        <i class="bi bi-sliders"></i>
+                    </button>
                 </div>
-            </ng-container>
-            <!-- EDIT MODE -->
-            <ng-template #editMode>
-                <edit-product [product]="product" (productUpdated)="onProductUpdated($event, setEditModeOff)"></edit-product>
-            </ng-template>
+            </div>
         </div>
-    </div>
 
-    <div class="row" *ngIf="scan">
-        <scan-card [scan]="scan"></scan-card>
-    </div>
-</div>
+        <div class="row">
+            <div class="col-md-3 col-12 text-center">
+                <product-image id="product-image" [fileId]="product.image" (imageSaved)="onImageUpdated($event)"></product-image>
+            </div>
+    
+            <!-- Name and description -->
+            <div class="col-md col-12">
+                <!-- VIEW MODE -->
+                <ng-container *ngIf="!editModeOn; else editMode">
+                    <h1>{{product.name}}</h1>
+                    <div class="col-12">
+                        <p *ngIf="product.description">{{product.description}}</p>
+                    </div>
+                </ng-container>
+                <!-- EDIT MODE -->
+                <ng-template #editMode>
+                    <edit-product [product]="product" (productUpdated)="onProductUpdated($event, setEditModeOff)"></edit-product>
+                </ng-template>
+            </div>
+        </div>
+    
+        <scan-card *ngIf="scan" [scan]="scan"></scan-card>
 
-<!-- footer -->
-<div class="footer px-2 py-2">
-    <div class="d-flex justify-content-between">
-        <!-- Setup providers -->
-        <button class="btn-block btn btn-info" (click)="onProvidersBtn()" i18n>
-            <i class="bi bi-sliders"></i>
-        </button>
-        <!-- Price history -->
-        <button class="btn-block btn btn-dark" (click)="onPriceHistoryBtn()" i18n>
-            <i class="bi bi-graph-up"></i>
-        </button>
-        <!-- Edit -->
-        <button class="btn-block btn btn-warning" (click)="onEditBtn()" [disabled]="editModeOn" i18n>
-            <i class="bi bi-pencil"></i>
-        </button>
-        <!-- Scan -->
-        <div class="d-inline-block">
-            <ng-container *ngIf="isDevMode">
-                <button class="btn-block btn btn-light" (click)="onScanBtn(true)">
-                    <i class="bi bi-bug"></i>
+    </div>
+    
+    <!-- footer -->
+    <div class="footer px-2 py-2">
+        <div class="d-flex justify-content-between">
+            <!-- Setup providers -->
+            <button class="btn-block btn btn-info" (click)="onProvidersBtn()" i18n>
+                <i class="bi bi-sliders"></i>
+            </button>
+            <!-- Price history -->
+            <button class="btn-block btn btn-dark" (click)="onPriceHistoryBtn()" i18n>
+                <i class="bi bi-graph-up"></i>
+            </button>
+            <!-- Edit -->
+            <button class="btn-block btn btn-warning" (click)="onEditBtn()" [disabled]="editModeOn" i18n>
+                <i class="bi bi-pencil"></i>
+            </button>
+            <!-- Scan -->
+            <div class="d-inline-block">
+                <ng-container *ngIf="isDevMode">
+                    <button class="btn-block btn btn-light" [disabled]="!product.providers.length" (click)="onScanBtn(true)">
+                        <i class="bi bi-bug"></i>
+                    </button>
+                    <br>
+                </ng-container>
+                <button class="btn-block btn btn-primary" [disabled]="!product.providers.length" async-btn [async-btn-is-busy]="btnLoadingMap['scan']"
+                    (click)="onScanBtn()" i18n>
+                    <i class="bi bi-search"></i>
                 </button>
-                <br>
-            </ng-container>
-            <button class="btn-block btn btn-primary" async-btn [async-btn-is-busy]="btnLoadingMap['scan']"
-                (click)="onScanBtn()" i18n>
-                <i class="bi bi-search"></i>
+            </div>
+            <!-- Delete -->
+            <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
+                <i class="bi bi-trash"></i>
             </button>
         </div>
-        <!-- Delete -->
-        <button class="btn-block btn btn-danger" (click)="onDeleteBtn()" i18n>
-            <i class="bi bi-trash"></i>
-        </button>
     </div>
-</div>
+</ng-container>
 
 <ng-template #genericModal let-modal>
     <ng-container  *ngIf="product" [ngSwitch]="modalToDisplay">
