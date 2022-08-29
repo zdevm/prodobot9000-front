@@ -26,9 +26,9 @@ export class ScanCardComponent implements OnChanges {
     }
   }
 
-  private prepareDuration(scan: Scan): Duration {
+  private prepareDuration(scan: Scan): Duration | undefined {
     if (!scan.completedAt) {
-      return {};
+      return undefined;
     }
     const secondsDiff = differenceInSeconds(scan.completedAt, scan.createdAt);
     return {
