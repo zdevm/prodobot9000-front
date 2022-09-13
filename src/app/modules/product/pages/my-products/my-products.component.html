@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center mt-3">
+    <div class="row justify-content-center mt-3" [hidden]="productsPagination.totalPages <= 1">
         <div class="col-auto">
             <ngb-pagination (pageChange)="onPage($event)" [collectionSize]="productsPagination.total"
                 [pageSize]="productsPagination.limit" [page]="productsPagination.page" aria-label="Default pagination">
