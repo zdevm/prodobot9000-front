@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ProductRate } from '@modules/product-rate/classes/product-rate';
 import { LegendPosition } from '@swimlane/ngx-charts';
-import * as shape from 'd3-shape';
 import { format } from 'date-fns';
 
 interface ChartData {
@@ -17,9 +16,13 @@ interface ChartData {
   templateUrl: './price-history.component.html',
   styleUrls: ['./price-history.component.scss']
 })
-export class PriceHistoryComponent implements AfterViewInit {
+export class PriceHistoryComponent {
   @Input('data') set setChartDate(initial: { date: string; rates: Pick<ProductRate, 'providerSlug' | 'price'>[]; }[]) {
-    this.data = this.transformForChart(initial);
+    this.chartOn = false;
+    setTimeout(() => {
+      this.data = this.transformForChart(initial);
+      this.chartOn = true;
+    }, 500)
   }
 
   data: ChartData[] = [];
@@ -38,14 +41,6 @@ export class PriceHistoryComponent implements AfterViewInit {
   colorScheme = {
     domain: ['red', 'purple', 'black', 'orange', 'green', 'cyan']
   };
-
-  ngAfterViewInit(): void {
-    this.showChart();
-  }
-
-  private showChart() {
-    setTimeout(() => this.chartOn = true, 500);
-  }
 
   private transformForChart(initial: { date: string; rates: Pick<ProductRate, 'providerSlug' | 'price'>[]; }[]): ChartData[] {
     const providersMap: Record<string, { name: string; value: number }[]> = {};
