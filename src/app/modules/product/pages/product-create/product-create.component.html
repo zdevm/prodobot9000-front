@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="alert alert-success" role="alert" *ngIf="createdProductId">
-            <span i18n>View and edit your product &nbsp;</span><a [routerLink]="['/products', createdProductId]" i18n>here</a>
+            <span i18n>Product has been successfully created. Set price providers&nbsp;</span><a [routerLink]="['/products', createdProductId]" i18n>here</a>
         </div>
         <div class="alert alert-danger" role="alert" *ngFor="let error of errors">
             {{error | ucfirst }}
