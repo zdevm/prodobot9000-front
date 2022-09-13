@@ -34,7 +34,7 @@ export class ProviderFormComponent implements ControlValueAccessor, Validator, O
 
   ngOnInit(): void {
     if (!this.command || !this.formSchema) {
-      throw new Error(`Cannot initialize ProviderFormComponent without 'command' and 'formSchema'`)
+      throw new Error(`Cannot initialize ProviderFormComponent without 'command' or 'formSchema'`)
     }
     this.form = this.initForm(this.formSchema);
   }
