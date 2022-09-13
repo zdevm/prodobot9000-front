@@ -1,10 +1,12 @@
 <ng-container *ngIf="productsPagination">
 
     <div class="row">
-        <div class="col-md-4 col-6 mb-2">
+        <div class="col-lg-3 col-md-4 col-xl-2 col-6 mb-2">
             <div class="card">
                 <div class="card-title text-center">
-                    <i style="font-size: 120px" class="text-success bi bi-plus-lg"></i>
+                    <a [routerLink]="['/products', 'new']">
+                        <i style="font-size: 120px" class="text-success bi bi-plus-lg"></i>
+                    </a>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title" i18n>New product</h5>
@@ -15,12 +17,14 @@
                 </div>
             </div>
         </div>
-        <div *ngFor="let product of productsPagination.docs" class="col-md-4 col-6 mb-2">
+        <div *ngFor="let product of productsPagination.docs" class="col-lg-3 col-md-4 col-xl-2 col-6 mb-2">
             <div class="card">
-                <img [src]="product.image ? (product.image | fileIdToUrl) : 'https://via.placeholder.com/150'" class="card-img-top" alt="{{product.name}}">
+                <div class="text-center py-1">
+                    <img [src]="product.image ? (product.image | fileIdToUrl) : 'https://via.placeholder.com/150'" class="card-img-top" alt="{{product.name}}">
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">{{product.name | shorten: 35}}</h5>
-                    <p class="card-text">{{product.description | shorten: 50}} </p>
+                    <p class="card-text">{{product.description | shorten: 40}} </p>
                 </div>
                 <div class="card-footer text-center">
                     <a [routerLink]="['/products', product.id]" class="btn btn-primary" i18n>View</a>
@@ -29,7 +33,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center mt-3">
+    <div class="row justify-content-center mt-3" [hidden]="productsPagination.totalPages <= 1">
         <div class="col-auto">
             <ngb-pagination (pageChange)="onPage($event)" [collectionSize]="productsPagination.total"
                 [pageSize]="productsPagination.limit" [page]="productsPagination.page" aria-label="Default pagination">

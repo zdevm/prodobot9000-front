@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="alert alert-success" role="alert" *ngIf="createdProductId">
-            <span i18n>View and edit your product &nbsp;</span><a [routerLink]="['/products', createdProductId]" i18n>here</a>
+            <span i18n>Product has been successfully created. Set price providers&nbsp;</span><a [routerLink]="['/products', createdProductId]" i18n>here</a>
         </div>
         <div class="alert alert-danger" role="alert" *ngFor="let error of errors">
             {{error | ucfirst }}
@@ -18,6 +18,12 @@
         <textarea formControlName="description" class="form-control" id="description" rows="3"></textarea>
     </div>
     <div class="col-12 text-end">
-        <button async-btn [async-btn-is-busy]="createButtonLoading" class="btn btn-success" [disabled]="form.invalid" i18n>Create product</button>
+        <button *ngIf="!createdProductId; else created" async-btn [async-btn-is-busy]="createButtonLoading" class="btn btn-success" [disabled]="form.invalid" i18n>Create product</button>
+        <ng-template #created>
+            <button class="btn btn-primary" [routerLink]="['/products', createdProductId]">
+                <span class="me-1" i18n>Continue</span>
+                <i class="bi bi-arrow-right-short"></i>
+            </button>
+        </ng-template>
     </div>
 </form>

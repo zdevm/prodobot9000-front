@@ -101,7 +101,10 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <price-history [data]="priceHistoryRawData"></price-history>
+                    <price-history *ngIf="priceHistoryRawData?.length; else noPriceHistory" [data]="priceHistoryRawData"></price-history>
+                    <ng-template #noPriceHistory>
+                        <p class="text-danger" i18n>Could not find any price scans.</p>
+                    </ng-template>
                 </div>
             </div>
         </ng-container>
