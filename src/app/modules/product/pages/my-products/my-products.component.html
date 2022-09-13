@@ -19,7 +19,7 @@
         </div>
         <div *ngFor="let product of productsPagination.docs" class="col-lg-3 col-md-4 col-xl-2 col-6 mb-2">
             <div class="card">
-                <div class="text-center py-1">
+                <div class="text-center px-2 py-1">
                     <img [src]="product.image ? (product.image | fileIdToUrl) : 'https://via.placeholder.com/150'" class="card-img-top" alt="{{product.name}}">
                 </div>
                 <div class="card-body">
