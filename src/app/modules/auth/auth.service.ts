@@ -25,7 +25,7 @@ export class AuthService extends HttpService {
     if (!token) {
       this.cookieService.delete(this._accessTokenKey)
     } else {
-      this.cookieService.set(this._accessTokenKey, token)
+      this.cookieService.set(this._accessTokenKey, token, 1)
     }
   }
 
