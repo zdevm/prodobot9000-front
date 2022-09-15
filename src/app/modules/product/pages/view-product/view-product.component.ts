@@ -184,12 +184,6 @@ export class ViewProductComponent implements OnDestroy {
                               .pipe(finalize(() => this.btnLoadingMap.scan = false));
   }
 
-  private fetchLastRates(id: string) {
-    this.setLoading(true);
-    return this.productRateService.getLatestOfEachProvider(id)
-                                  .pipe(finalize(() => this.setLoading(false)));
-  }
-
   private fetchLatestScan(productId: string) {
     this.setLoading(true);
     return this.scanService.findLatestByProduct(productId)
