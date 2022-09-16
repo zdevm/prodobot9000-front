@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ProductRate } from '@modules/product-rate/classes/product-rate';
 import { LegendPosition } from '@swimlane/ngx-charts';
 import { format } from 'date-fns';
@@ -14,19 +14,15 @@ interface ChartData {
 @Component({
   selector: 'price-history',
   templateUrl: './price-history.component.html',
-  styleUrls: ['./price-history.component.scss']
+  styleUrls: ['./price-history.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PriceHistoryComponent {
   @Input('data') set setChartDate(initial: { date: string; rates: Pick<ProductRate, 'providerSlug' | 'price'>[]; }[]) {
-    this.chartOn = false;
-    setTimeout(() => {
-      this.data = this.transformForChart(initial);
-      this.chartOn = true;
-    }, 500)
+    this.data = this.transformForChart(initial);
   }
 
   data: ChartData[] = [];
-  chartOn = false;
   // options
   legendPosition = LegendPosition.Below;
   legend: boolean = true;
